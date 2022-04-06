@@ -1,0 +1,35 @@
+/**
+ * Copyright © 2022-2022 The GW Authors
+ *
+ * Licensed under the Apache License, Version 2.0 (the "License");
+ * you may not use this file except in compliance with the License.
+ * You may obtain a copy of the License at
+ *
+ *     http://www.apache.org/licenses/LICENSE-2.0
+ *
+ * Unless required by applicable law or agreed to in writing, software
+ * distributed under the License is distributed on an "AS IS" BASIS,
+ * WITHOUT WARRANTIES OR CONDITIONS OF ANY KIND, either express or implied.
+ * See the License for the specific language governing permissions and
+ * limitations under the License.
+ */
+package ${packagePath};
+
+import io.swagger.annotations.ApiModel;
+import io.swagger.annotations.ApiModelProperty;
+import lombok.Data;
+
+@Data
+@ApiModel
+public class ${className}Dto {
+    <#list fieldConfigList as field>
+    <#if field.fieldName == "id">
+    /** 编辑时使用 */
+    @ApiModelProperty(value = "编辑时使用", example = "6c158060-a9a1-11ec-9b20-b3f727361e64")
+    <#else>
+    /** ${field.fieldRemarks} */
+    @ApiModelProperty(value = "${field.fieldRemarks}")
+    </#if>
+    private ${field.fieldType} ${field.fieldName};
+    </#list>
+}
