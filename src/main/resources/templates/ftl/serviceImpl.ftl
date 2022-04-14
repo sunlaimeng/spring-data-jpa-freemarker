@@ -15,7 +15,8 @@
  */
 package ${packagePath};
 
-import lombok.extern.slf4j.Slf4j;
+import org.gw.server.common.data.id.TenantId;
+import org.gw.server.common.data.page.PageBean;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.stereotype.Service;
 

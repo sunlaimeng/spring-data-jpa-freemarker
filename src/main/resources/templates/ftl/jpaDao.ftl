@@ -15,6 +15,9 @@
  */
 package ${packagePath};
 
+import org.gw.server.common.data.page.PageBean;
+import org.gw.server.dao.DaoUtil;
+import org.gw.server.dao.sql.JpaAbstractDao;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.data.domain.Page;
 import org.springframework.data.domain.PageRequest;
@@ -36,15 +39,13 @@ public class Jpa${className}Dao extends JpaAbstractDao<${className}Entity, ${cla
     }
 
     @Override
-    protected CrudRepository<${className}Entity, String> getCrudRepository() {
+    protected CrudRepository<${className}Entity, UUID> getCrudRepository() {
         return ${classNameLowerCaseFirst}Repository;
     }
 
     @Override
     public PageBean<${className}> findPage(${className}Query ${classNameLowerCaseFirst}Query) {
-        Pageable pageable = createPageable(${classNameLowerCaseFirst}Query);
-        Page<${className}Entity> page = ${classNameLowerCaseFirst}Repository.findPage(${classNameLowerCaseFirst}Query, pageable);
-        return createPageBean(${classNameLowerCaseFirst}Query, page);
+        return getPageBean(query, true, pageable -> ${classNameLowerCaseFirst}Repository.findPage(${classNameLowerCaseFirst}Query, pageable));
     }
 
     @Override
@@ -55,26 +56,5 @@ public class Jpa${className}Dao extends JpaAbstractDao<${className}Entity, ${cla
     @Override
     public void deleteById(String id) {
         ${classNameLowerCaseFirst}Repository.deleteById(id);
-    }
-
-    /**
-     * 封装响应体
-     */
-    private PageBean<${className}> createPageBean(${className}Query ${classNameLowerCaseFirst}Query, Page<${className}Entity> page) {
-        PageBean<${className}> pageBean = new PageBean<>();
-        pageBean.setPageNo(${classNameLowerCaseFirst}Query.getCurrentPage());
-        pageBean.setPageSize(${classNameLowerCaseFirst}Query.getPageSize());
-        pageBean.setTotalCount((int) page.getTotalElements());
-        pageBean.setData(DaoUtil.convertDataList(page.getContent()));
-        return pageBean;
-    }
-
-    /**
-     * 分页
-     */
-    private Pageable createPageable(${className}Query ${classNameLowerCaseFirst}Query) {
-        Integer pageIndex = ${classNameLowerCaseFirst}Query.getCurrentPage() > 0 ? ${classNameLowerCaseFirst}Query.getCurrentPage() - 1 : 0;
-        Pageable pageable = PageRequest.of(pageIndex, ${classNameLowerCaseFirst}Query.getPageSize());
-        return pageable;
     }
 }

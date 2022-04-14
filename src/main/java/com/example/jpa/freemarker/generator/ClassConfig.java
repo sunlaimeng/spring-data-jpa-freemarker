@@ -14,6 +14,8 @@ public class ClassConfig {
     private String packagePath;
     /** 模板路径 */
     private String templatePath;
+    /** api接口路径 */
+    private String apiPath;
     /** java类文件生成路径 */
     private String classPath;
     /** 类文件名称 */

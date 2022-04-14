@@ -47,34 +47,27 @@ public class Generator {
         ClassConfig classConfig = getClassConfig(sql);
         Map<String, Object> dataMap = covertMap(classConfig);
         String className = classConfig.getClassName();
-        // 生成 ModelConstants
-        generatorClassFile(classConfig, dataMap, "modelConstants.ftl", "ModelConstants.java");
-        // 生成 EntityType
-        generatorClassFile(classConfig, dataMap, "entityType.ftl", "EntityType.java");
-        // 生成 Entity
-        generatorClassFile(classConfig, dataMap, "entity.ftl", className + "Entity.java");
-        // 生成 Bean
-        generatorClassFile(classConfig, dataMap, "bean.ftl", className + ".java");
-        // 生成 Id
-        generatorClassFile(classConfig, dataMap, "id.ftl", className + "Id.java");
-        // 生成 Repository
-        generatorClassFile(classConfig, dataMap, "repository.ftl", className + "Repository.java");
-        // 生成 Helper
-        generatorClassFile(classConfig, dataMap, "helper.ftl", className + "Helper.java");
-        // 生成 Query
-        generatorClassFile(classConfig, dataMap, "query.ftl", className + "Query.java");
-        // 生成 Dto
-        generatorClassFile(classConfig, dataMap, "dto.ftl", className + "Dto.java");
-        // 生成 Controller
-        generatorClassFile(classConfig, dataMap, "controller.ftl", className + "Controller.java");
-        // 生成 Service
-        generatorClassFile(classConfig, dataMap, "service.ftl", className + "Service.java");
-        // 生成 ServiceImpl
-        generatorClassFile(classConfig, dataMap, "serviceImpl.ftl", className + "ServiceImpl.java");
-        // 生成 Dao
-        generatorClassFile(classConfig, dataMap, "dao.ftl", className + "Dao.java");
-        // 生成 JpaDao
-        generatorClassFile(classConfig, dataMap, "jpaDao.ftl", "Jpa" + className + "Dao.java");
+
+        List<String[]> ftlList = new ArrayList<>();
+        ftlList.add(new String[]{"bean.ftl", className + ".java"});
+        ftlList.add(new String[]{"controller.ftl", className + "Controller.java"});
+        ftlList.add(new String[]{"controllerTest.ftl", className + "ControllerTest.java"});
+        ftlList.add(new String[]{"dao.ftl", className + "Dao.java"});
+        ftlList.add(new String[]{"dto.ftl", className + "Dto.java"});
+        ftlList.add(new String[]{"entity.ftl", className + "Entity.java"});
+        ftlList.add(new String[]{"entityType.ftl", "EntityType.java"});
+        ftlList.add(new String[]{"helper.ftl", className + "Helper.java"});
+        ftlList.add(new String[]{"id.ftl", className + "Id.java"});
+        ftlList.add(new String[]{"jpaDao.ftl", "Jpa" + className + "Dao.java"});
+        ftlList.add(new String[]{"modelConstants.ftl", "ModelConstants.java"});
+        ftlList.add(new String[]{"query.ftl", className + "Query.java"});
+        ftlList.add(new String[]{"repository.ftl", className + "Repository.java"});
+        ftlList.add(new String[]{"service.ftl", className + "Service.java"});
+        ftlList.add(new String[]{"serviceImpl.ftl", className + "ServiceImpl.java"});
+
+        for (String[] ftl : ftlList) {
+            generatorClassFile(classConfig, dataMap, ftl[0], ftl[1]);
+        }
     }
 
     /**
@@ -131,6 +124,8 @@ public class Generator {
         String sql0 = sqlArray[0];
         // 表名称
         String tableName = sql0.substring(sql0.indexOf("`") + 1, sql0.lastIndexOf("`"));
+        // api接口路径
+        String apiPath = tableName.replace("_", "-");
         // 表名称别名
         String tableNameAlias = tableName.substring(0, 1);
         // 表名称大写
@@ -162,6 +157,7 @@ public class Generator {
         ClassConfig classConfig = new ClassConfig();
         classConfig.setPackagePath(PACKAGE_PATH);
         classConfig.setTemplatePath(TEMPLATE_PATH);
+        classConfig.setApiPath(apiPath);
         classConfig.setClassPath(CLASS_PATH);
         classConfig.setAuthor(AUTHOR);
         classConfig.setCreateTime(createTime);

@@ -15,6 +15,8 @@
  */
 package ${packagePath};
 
+import org.gw.server.common.data.page.PageBean;
+
 public interface ${className}Service {
 
     void save(${className}Dto ${classNameLowerCaseFirst}Dto);

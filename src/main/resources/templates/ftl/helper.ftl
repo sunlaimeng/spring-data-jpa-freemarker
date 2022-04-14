@@ -25,6 +25,7 @@ import io.swagger.annotations.ApiModelProperty;
 public interface ${className}Helper {
     <#list fieldConfigList as field>
     /** ${field.fieldRemarks} */
+    @ApiModelProperty(value = "${field.fieldRemarks}")
     ${field.fieldType} get${field.fieldNameUpperCaseFirst}();
     </#list>
 }

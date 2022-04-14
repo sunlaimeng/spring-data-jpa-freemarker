@@ -15,6 +15,9 @@
  */
 package ${packagePath};
 
+import org.gw.server.common.data.page.PageBean;
+import org.gw.server.dao.Dao;
+
 public interface ${className}Dao extends Dao<${className}> {
 
     PageBean<${className}> findPage(${className}Query ${classNameLowerCaseFirst}Query);

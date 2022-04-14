@@ -16,8 +16,15 @@
 package ${packagePath};
 
 import io.swagger.annotations.ApiModel;
+import io.swagger.annotations.ApiModelProperty;
 import lombok.Data;
 import lombok.EqualsAndHashCode;
+import org.gw.server.common.data.HasCustomerId;
+import org.gw.server.common.data.HasName;
+import org.gw.server.common.data.HasTenantId;
+import org.gw.server.common.data.SearchTextBasedWithAdditionalInfo;
+import org.gw.server.common.data.id.CustomerId;
+import org.gw.server.common.data.id.TenantId;
 
 @ApiModel
 @EqualsAndHashCode(callSuper = true)
@@ -27,10 +34,18 @@ public class ${className} extends SearchTextBasedWithAdditionalInfo<${className}
     private TenantId tenantId;
     private CustomerId customerId;
     <#list fieldConfigList as field>
-    /** ${field.fieldRemarks} */
     <#if field.fieldName == "id">
-    private ${className}Id id;
+    <#elseif field.fieldType == "Long">
+    /** ${field.fieldRemarks} */
+    @ApiModelProperty(value = "${field.fieldRemarks}")
+    private long ${field.fieldName};
+    <#elseif field.fieldType == "Integer">
+    /** ${field.fieldRemarks} */
+    @ApiModelProperty(value = "${field.fieldRemarks}")
+    private int ${field.fieldName};
     <#else>
+    /** ${field.fieldRemarks} */
+    @ApiModelProperty(value = "${field.fieldRemarks}")
     private ${field.fieldType} ${field.fieldName};
     </#if>
     </#list>
@@ -58,13 +73,19 @@ public class ${className} extends SearchTextBasedWithAdditionalInfo<${className}
         this.tenantId = ${classNameLowerCaseFirst}.getTenantId();
         this.customerId = ${classNameLowerCaseFirst}.getCustomerId();
         <#list fieldConfigList as field>
+        <#if field.fieldName == "id">
+        <#else>
         this.${field.fieldName} = ${classNameLowerCaseFirst}.get${field.fieldNameUpperCaseFirst}();
+        </#if>
         </#list>
     }
 
     public ${className} convert${className}(${className} ${classNameLowerCaseFirst}, ${className}Dto ${classNameLowerCaseFirst}Dto) {
         <#list fieldConfigList as field>
+        <#if field.fieldName == "id">
+        <#else>
         ${classNameLowerCaseFirst}.set${field.fieldNameUpperCaseFirst}(${classNameLowerCaseFirst}Dto.get${field.fieldNameUpperCaseFirst}() == null ? ${classNameLowerCaseFirst}.get${field.fieldNameUpperCaseFirst}() : ${classNameLowerCaseFirst}Dto.get${field.fieldNameUpperCaseFirst}());
+        </#if>
         </#list>
         return ${classNameLowerCaseFirst};
     }

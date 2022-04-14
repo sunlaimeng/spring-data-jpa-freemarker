@@ -17,6 +17,8 @@ package ${packagePath};
 
 import lombok.Data;
 import lombok.EqualsAndHashCode;
+import org.gw.server.dao.model.BaseSqlEntity;
+import org.gw.server.dao.util.mapping.JsonStringType;
 import org.hibernate.annotations.DynamicInsert;
 import org.hibernate.annotations.DynamicUpdate;
 import org.hibernate.annotations.TypeDef;
@@ -50,17 +52,25 @@ public class ${className}Entity extends BaseSqlEntity<${className}> {
     /** ${field.fieldRemarks} */
     @CreatedDate
     @Column(name = ModelConstants.${tableNameUpperCase}_${field.tableFieldNameUpperCase}_PROPERTY)
-    private ${field.fieldType} ${field.fieldName};
+    private long ${field.fieldName};
     <#elseif field.fieldName == "updateTime">
     /** ${field.fieldRemarks} */
     @LastModifiedDate
     @Column(name = ModelConstants.${tableNameUpperCase}_${field.tableFieldNameUpperCase}_PROPERTY)
-    private ${field.fieldType} ${field.fieldName};
+    private long ${field.fieldName};
     <#elseif field.fieldType == "JsonNode">
     /** ${field.fieldRemarks} */
     @Type(type = "json")
     @Column(name = ModelConstants.${tableNameUpperCase}_${field.tableFieldNameUpperCase}_PROPERTY)
     private ${field.fieldType} ${field.fieldName};
+    <#elseif field.fieldType == "Long">
+    /** ${field.fieldRemarks} */
+    @Column(name = ModelConstants.${tableNameUpperCase}_${field.tableFieldNameUpperCase}_PROPERTY)
+    private long ${field.fieldName};
+    <#elseif field.fieldType == "Integer">
+    /** ${field.fieldRemarks} */
+    @Column(name = ModelConstants.${tableNameUpperCase}_${field.tableFieldNameUpperCase}_PROPERTY)
+    private int ${field.fieldName};
     <#else>
     /** ${field.fieldRemarks} */
     @Column(name = ModelConstants.${tableNameUpperCase}_${field.tableFieldNameUpperCase}_PROPERTY)

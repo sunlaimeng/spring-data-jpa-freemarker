@@ -19,6 +19,10 @@ import io.swagger.annotations.Api;
 import io.swagger.annotations.ApiOperation;
 import io.swagger.annotations.ApiParam;
 import lombok.extern.slf4j.Slf4j;
+import org.gw.community.controller.BaseController;
+import org.gw.community.controller.ComunityUrlConstants;
+import org.gw.server.common.data.ResponseBean;
+import org.gw.server.common.data.page.PageBean;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.security.access.prepost.PreAuthorize;
 import org.springframework.web.bind.annotation.*;
@@ -42,7 +46,7 @@ public class ${className}Controller extends BaseController {
      */
     @ApiOperation(value = "${tableRemarks}保存/修改", notes = "保存/修改是同一个接口，当修改时须传入id字段")
     @PreAuthorize("hasAnyAuthority('SYS_ADMIN', 'TENANT_ADMIN', 'CUSTOMER_USER')")
-    @PostMapping("/${classNameLowerCaseFirst}")
+    @PostMapping("/${apiPath}")
     public ResponseBean save(@RequestBody ${className}Dto ${classNameLowerCaseFirst}Dto) {
         try {
             ${classNameLowerCaseFirst}Service.save(${classNameLowerCaseFirst}Dto);
@@ -57,7 +61,7 @@ public class ${className}Controller extends BaseController {
      * 列表
      */
     @ApiOperation(value = "${tableRemarks}列表", notes = "所有用户都能看到")
-    @GetMapping("/${classNameLowerCaseFirst}/list")
+    @GetMapping("/${apiPath}/list")
     public ResponseBean<PageBean<${className}>> list(${className}Query ${classNameLowerCaseFirst}Query) {
         try {
             PageBean<${className}> page = ${classNameLowerCaseFirst}Service.findPage(${classNameLowerCaseFirst}Query);
@@ -72,8 +76,8 @@ public class ${className}Controller extends BaseController {
      * 详情
      */
     @ApiOperation(value = "${tableRemarks}详情", notes = "通过id查找详情")
-    @GetMapping("/${classNameLowerCaseFirst}/details")
-    public ResponseBean<${className}Dto> details(
+    @GetMapping("/${apiPath}/details")
+    public ResponseBean<${className}> details(
             @ApiParam(value = "${tableRemarks}id")
             @RequestParam String id) {
         try {
@@ -89,7 +93,7 @@ public class ${className}Controller extends BaseController {
      * 删除
      */
     @ApiOperation(value = "${tableRemarks}删除", notes = "通过id删除")
-    @DeleteMapping("/${classNameLowerCaseFirst}")
+    @DeleteMapping("/${apiPath}")
     public ResponseBean delete(
             @ApiParam(value = "${tableRemarks}id")
             @RequestParam String id) {

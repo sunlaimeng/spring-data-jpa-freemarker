@@ -18,6 +18,8 @@ package ${packagePath};
 import com.fasterxml.jackson.annotation.JsonCreator;
 import com.fasterxml.jackson.annotation.JsonProperty;
 import io.swagger.annotations.ApiModelProperty;
+import org.gw.server.common.data.id.EntityId;
+import org.gw.server.common.data.id.UUIDBased;
 
 import java.util.UUID;
 
