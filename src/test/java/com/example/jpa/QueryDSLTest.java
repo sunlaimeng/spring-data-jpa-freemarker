@@ -13,12 +13,12 @@ import com.querydsl.jpa.impl.JPAQueryFactory;
 import org.apache.commons.lang3.StringUtils;
 import org.junit.Test;
 import org.junit.runner.RunWith;
-import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.boot.test.context.SpringBootTest;
 import org.springframework.test.context.junit4.SpringRunner;
 
 import javax.annotation.PostConstruct;
 import javax.persistence.EntityManager;
+import javax.persistence.PersistenceContext;
 import java.util.List;
 
 /**
@@ -28,7 +28,7 @@ import java.util.List;
 @SpringBootTest(classes = SpringDataJpaApplication.class)
 public class QueryDSLTest {
 
-    @Autowired
+    @PersistenceContext
     private EntityManager entityManager;
 
     private JPAQueryFactory queryFactory;
