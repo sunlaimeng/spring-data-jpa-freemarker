@@ -43,8 +43,8 @@ public class QueryDSLTest {
      */
     @Test
     public void base() {
-        QTeacher teacher = QTeacher.teacher;
-        QStudent student = QStudent.student;
+        QTeacherEntity teacher = QTeacherEntity.teacherEntity;
+        QStudentEntity student = QStudentEntity.studentEntity;
 
         Long count = queryFactory.select(teacher.id.count()).from(teacher).fetchOne();
         System.out.println(count);
@@ -58,18 +58,18 @@ public class QueryDSLTest {
         Integer max = queryFactory.select(teacher.id.max()).from(teacher).fetchOne();
         System.out.println(max);
 
-        List<Teacher> t1 = queryFactory.select(teacher).from(teacher).groupBy(teacher.name).fetch();
+        List<TeacherEntity> t1 = queryFactory.select(teacher).from(teacher).groupBy(teacher.name).fetch();
         System.out.println(JSON.toJSONString(t1));
 
-        List<Teacher> t2 = queryFactory.select(teacher).from(teacher).where(teacher.name.eq("张老师")).fetch();
+        List<TeacherEntity> t2 = queryFactory.select(teacher).from(teacher).where(teacher.name.eq("张老师")).fetch();
         System.out.println(JSON.toJSONString(t2));
 
         List<Tuple> t3 = queryFactory.select(teacher, student).from(teacher)
                 .leftJoin(student).on(student.teacherId.eq(teacher.id))
                 .where(teacher.name.eq("张老师")).fetch();
         for (Tuple tuple : t3) {
-            Teacher t = tuple.get(teacher);
-            Student s = tuple.get(student);
+            TeacherEntity t = tuple.get(teacher);
+            StudentEntity s = tuple.get(student);
             System.out.println(JSON.toJSONString(t));
             System.out.println(JSON.toJSONString(s));
         }
@@ -80,8 +80,8 @@ public class QueryDSLTest {
      */
     @Test
     public void page() {
-        QTeacher teacher = QTeacher.teacher;
-        QStudent student = QStudent.student;
+        QTeacherEntity teacher = QTeacherEntity.teacherEntity;
+        QStudentEntity student = QStudentEntity.studentEntity;
 
         int currentPage = 1;
         int pageSize = 10;
@@ -124,8 +124,8 @@ public class QueryDSLTest {
      */
     @Test
     public void custom() {
-        QTeacher teacher = QTeacher.teacher;
-        QStudent student = QStudent.student;
+        QTeacherEntity teacher = QTeacherEntity.teacherEntity;
+        QStudentEntity student = QStudentEntity.studentEntity;
 
         // 查询入参
         int currentPage = 1;
@@ -179,7 +179,7 @@ public class QueryDSLTest {
      */
     @Test
     public void in() {
-        QStudent student = QStudent.student;
+        QStudentEntity student = QStudentEntity.studentEntity;
 
         List<Integer> ids = new ArrayList<>();
         ids.add(1);

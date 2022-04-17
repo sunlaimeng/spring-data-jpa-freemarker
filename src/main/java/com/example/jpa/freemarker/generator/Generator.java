@@ -59,6 +59,7 @@ public class Generator {
         ftlList.add(new String[]{"helper.ftl", className + "Helper.java"});
         ftlList.add(new String[]{"id.ftl", className + "Id.java"});
         ftlList.add(new String[]{"jpaDao.ftl", "Jpa" + className + "Dao.java"});
+        ftlList.add(new String[]{"jpaDao2.ftl", "Jpa" + className + "Dao2.java"});
         ftlList.add(new String[]{"modelConstants.ftl", "ModelConstants.java"});
         ftlList.add(new String[]{"query.ftl", className + "Query.java"});
         ftlList.add(new String[]{"repository.ftl", className + "Repository.java"});

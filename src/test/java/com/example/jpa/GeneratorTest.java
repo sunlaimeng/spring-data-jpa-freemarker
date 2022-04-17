@@ -21,6 +21,6 @@ public class GeneratorTest {
     @Test
     public void testGenerator() {
         Generator generator = new Generator();
-        generator.generate(jdbcTemplate, "activity_called");
+        generator.generate(jdbcTemplate, "teacher");
     }
 }
