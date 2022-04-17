@@ -6,8 +6,7 @@ import com.example.jpa.querydsl.entity.*;
 import com.querydsl.core.BooleanBuilder;
 import com.querydsl.core.Tuple;
 import com.querydsl.core.types.Projections;
-import com.querydsl.core.types.dsl.Expressions;
-import com.querydsl.core.types.dsl.StringTemplate;
+import com.querydsl.core.types.dsl.*;
 import com.querydsl.jpa.impl.JPAQuery;
 import com.querydsl.jpa.impl.JPAQueryFactory;
 import org.apache.commons.lang3.StringUtils;
@@ -19,6 +18,7 @@ import org.springframework.test.context.junit4.SpringRunner;
 import javax.annotation.PostConstruct;
 import javax.persistence.EntityManager;
 import javax.persistence.PersistenceContext;
+import java.util.ArrayList;
 import java.util.List;
 
 /**
@@ -171,6 +171,37 @@ public class QueryDSLTest {
         System.out.println(count);
         for (TeacherVo teacherBean : list) {
             System.out.println(JSON.toJSONString(teacherBean, SerializerFeature.WriteMapNullValue));
+        }
+    }
+
+    /**
+     * case when / in
+     */
+    @Test
+    public void in() {
+        QStudent student = QStudent.student;
+
+        List<Integer> ids = new ArrayList<>();
+        ids.add(1);
+        ids.add(2);
+        ids.add(3);
+        ids.add(5);
+
+        StringExpression description = new CaseBuilder()
+                .when(student.score.goe(90)).then("优秀")
+                .when(student.score.goe(60)).then("及格")
+                .otherwise("极差");
+
+        // sql语句
+        List<StudentVo> studentVoList = queryFactory.select(
+                Projections.bean(StudentVo.class,
+                        student.id, student.name, student.score,
+                        description.as("description")))
+                .from(student)
+                .where(student.id.in(ids)).fetch();
+
+        for (StudentVo s : studentVoList) {
+            System.out.println(JSON.toJSONString(s));
         }
     }
 }
