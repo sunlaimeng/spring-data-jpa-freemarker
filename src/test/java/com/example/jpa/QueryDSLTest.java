@@ -2,7 +2,10 @@ package com.example.jpa;
 
 import com.alibaba.fastjson.JSON;
 import com.alibaba.fastjson.serializer.SerializerFeature;
+import com.example.jpa.querydsl.config.MySQL8DialectTemplate;
 import com.example.jpa.querydsl.entity.*;
+import com.example.jpa.querydsl.entity.QStudentEntity;
+import com.example.jpa.querydsl.entity.QTeacherEntity;
 import com.querydsl.core.BooleanBuilder;
 import com.querydsl.core.Tuple;
 import com.querydsl.core.types.Projections;
@@ -143,12 +146,12 @@ public class QueryDSLTest {
             booleanBuilder.and(teacher.name.like("%" + name + "%"));
         }
         if (StringUtils.isNotEmpty(studentNameList)) {
-            booleanBuilder.and(Expressions.numberTemplate(Integer.class, "find_in_set({0}, {1})", student.name, studentNameList).gt(0));
+            booleanBuilder.and(Expressions.numberTemplate(Integer.class, MySQL8DialectTemplate.FIND_IN_SET, student.name, studentNameList).gt(0));
         }
 
         // 字段转化
-        StringTemplate groupStudentName = Expressions.stringTemplate("group_concat({0})", student.name);
-        StringTemplate createTime = Expressions.stringTemplate("from_unixtime({0}/1000, '%Y-%m-%d %H:%i:%s')", teacher.createTime);
+        StringTemplate groupStudentName = Expressions.stringTemplate(MySQL8DialectTemplate.GROUP_CONCAT, student.name);
+        StringTemplate createTime = Expressions.stringTemplate(MySQL8DialectTemplate.FROM_UNIXTIME_MILLISECOND_YMDHIS, teacher.createTime);
 
         // sql语句
         JPAQuery<TeacherVo> query = queryFactory.select(

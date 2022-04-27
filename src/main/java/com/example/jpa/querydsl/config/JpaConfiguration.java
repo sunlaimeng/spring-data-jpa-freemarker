@@ -18,7 +18,7 @@ public class JpaConfiguration {
         AbstractJpaVendorAdapter adapter = new HibernateJpaVendorAdapter();
         adapter.setShowSql(true);
         adapter.setDatabase(Database.MYSQL);
-        adapter.setDatabasePlatform("com.example.jpa.querydsl.config.JpaMysqlDialect");
+        adapter.setDatabasePlatform("com.example.jpa.querydsl.config.JpaMySQL8Dialect");
         adapter.setGenerateDdl(false);
         return adapter;
     }
