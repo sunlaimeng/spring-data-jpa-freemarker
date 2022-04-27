@@ -44,23 +44,20 @@ public class ExtendsSuperTest {
         Object object = p.get();
         System.out.println(JSON.toJSONString(object));
     }
-}
 
-class Food {}
-
-class Fruit extends Food {}
-
-class Apple extends Fruit {}
-
-class Plate<T> {
-    private T item;
-    public Plate(T t) {
-        item = t;
-    }
-    public void set(T t) {
-        item = t;
-    }
-    public T get() {
-        return item;
+    private class Food {}
+    private class Fruit extends Food {}
+    private class Apple extends Fruit {}
+    private class Plate<T> {
+        private T item;
+        public Plate(T t) {
+            item = t;
+        }
+        public void set(T t) {
+            item = t;
+        }
+        public T get() {
+            return item;
+        }
     }
 }
